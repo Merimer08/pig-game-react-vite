@@ -1,60 +1,72 @@
-import './App.css'
-import { useState, useEffect } from 'react'
-import Player from './Player/Player'
+import './App.css';
+import { useState, useEffect } from 'react';
+
 function App() {
-  const [activePlayer, setActivePlayer] = useState(1)
-  const [score, setScore] = useState([0, 0])
-  const [current, setCurrent] = useState(0)
-  const [diceNumber, setDiceNumber] = useState(0)
+  const [activePlayer, setActivePlayer] = useState(0); // Se mantiene como 0 y 1
+  const [score, setScore] = useState([0, 0]);
+  const [current, setCurrent] = useState(0);
+  const [diceNumber, setDiceNumber] = useState(0);
 
   const handleHold = () => {
-    // para cambiar el score, se debe definir una nueva variable
-    // no modificamos el array, creamos uno nuevo!!!!
-    const newScore = [...score]
-    // newScore[activaPlayer -1] = newScore[activePlayer -1] + current
-    newScore[activePlayer - 1] += current
-    setScore(newScore)
-    setActivePlayer(activePlayer === 1 ? 2 : 1)
-    setCurrent(0)
-  }
+    // Creamos un nuevo array usando destructuración
+    const newScore = [...score];
+    // Actualizamos el valor del jugador activo
+    newScore[activePlayer] += current;
+    // Establecemos el nuevo array
+    setScore(newScore);
+    // Cambiamos de jugador
+    setActivePlayer(activePlayer === 0 ? 1 : 0); // Cambia entre 0 y 1
+    // Reseteamos el current
+    setCurrent(0);
+  };
+
   const handleNewGame = () => {
-    setActivePlayer(1)
-    setScore([0, 0])
-    setCurrent(0)
-    setDiceNumber(0)
-  }
+    setActivePlayer(0); // Jugador 0 empieza
+    setScore([0, 0]);
+    setCurrent(0);
+    setDiceNumber(0);
+  };
 
   const handleRollDice = () => {
-    // const randomNumber = Math.floor(Math.random() * 6) + 1
-    // setDiceNumber(randomNumber)
-    setDiceNumber(Math.floor(Math.random() * 6) + 1)
-  }
+    setDiceNumber(Math.floor(Math.random() * 6) + 1);
+  };
 
   useEffect(() => {
     if (diceNumber === 1) {
-      setActivePlayer((activePlayer) => (activePlayer === 1 ? 2 : 1))
-      setCurrent(0)
+      setActivePlayer((prevActivePlayer) => (prevActivePlayer === 0 ? 1 : 0)); // Cambia entre 0 y 1 si sale un 1
+      setCurrent(0);
     } else {
-      // setCurrent (current + diceNumber)
-      setCurrent((current) => current + diceNumber)
+      setCurrent((prevCurrent) => prevCurrent + diceNumber);
     }
-  }, [diceNumber])
+  }, [diceNumber]);
 
   return (
     <main>
-      <Player
-        name="Player 1"
-        score={score[0]}
-        current={activePlayer === 1 && current}
-        isActive={activePlayer === 1}
-      />
-      <Player
-        name="Player 2"
-        score={score[1]}
-        current={activePlayer === 2 && current}
-        isActive={activePlayer === 2}
-      />
-      {diceNumber && (
+      {/* Player 1 */}
+      <div className={`player ${activePlayer === 0 ? 'player--active' : ''}`}>
+        <div className="name">Player 1</div>
+        <div className="score">{score[0]}</div>
+        {activePlayer === 0 && (
+          <div className="current">
+            <div className="current-label">Current</div>
+            <div className="current-score">{current}</div>
+          </div>
+        )}
+      </div>
+
+      {/* Player 2 */}
+      <div className={`player ${activePlayer === 1 ? 'player--active' : ''}`}>
+        <div className="name">Player 2</div>
+        <div className="score">{score[1]}</div>
+        {activePlayer === 1 && (
+          <div className="current">
+            <div className="current-label">Current</div>
+            <div className="current-score">{current}</div>
+          </div>
+        )}
+      </div>
+
+      {diceNumber > 0 && (
         <img
           src={`dice-${diceNumber}.png`}
           alt="Playing dice"
@@ -71,7 +83,7 @@ function App() {
         📥 Hold
       </button>
     </main>
-  )
+  );
 }
 
-export default App
+export default App;
