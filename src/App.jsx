@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'; //
 
 function App() {
   const [activePlayer, setActivePlayer] = useState(0); // Se mantiene como 0 y 1
