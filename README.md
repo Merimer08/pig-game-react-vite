@@ -1,5 +1,5 @@
 ## Iniciar proyecto
-- npx create-react-app pig-game-react
+- npm create vite@latest pig-game-react
 - cd pig-game-react
 - npm install
 - npm run dev
