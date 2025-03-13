@@ -98,7 +98,7 @@ function App() {
               className="name-input"
             />
           </div>
-          <button type="submit" className="btn btn--new">Empezar Juego</button>
+          <button type="submit" className="btn btn--new">New game</button>
         </form>
       ) : (
         <>
@@ -144,6 +144,7 @@ function App() {
       <button className="btn btn--hold" onClick={handleHold}>
         📥 Hold
       </button>
+      <div className="game-text">Empezar Juego</div>
     </main>
   );
 }
